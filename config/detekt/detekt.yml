@@ -1,0 +1,17 @@
+naming:
+  ClassNaming:
+    excludes:
+      - "**/test/**"
+
+style:
+  ReturnCount:
+    max: 5
+  UtilityClassWithPublicConstructor:
+    excludes:
+      - "**/test/**"
+
+formatting:
+  TrailingCommaOnCallSite:
+    active: true
+  TrailingCommaOnDeclarationSite:
+    active: true
