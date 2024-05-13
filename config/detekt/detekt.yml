@@ -3,6 +3,14 @@ naming:
     excludes:
       - "**/test/**"
 
+comments:
+  UndocumentedPublicClass:
+    active: true
+  UndocumentedPublicFunction:
+    active: true
+  UndocumentedPublicProperty:
+    active: true
+
 style:
   ReturnCount:
     max: 5
