@@ -1,0 +1,5 @@
+services:
+  db:
+    # jOOQ でコード生成する際はポート番号をランダムに設定するように上書きする
+    ports: !override
+      - 5432
