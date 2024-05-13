@@ -1,0 +1,28 @@
+name: Static analysis by detekt
+
+on:
+  push:
+
+jobs:
+  detekt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Generate jOOQ code
+        run: ./gradlew :db:jooqCodegen
+
+      - name: Run detekt
+        run: ./gradlew detekt
