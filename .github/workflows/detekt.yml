@@ -22,7 +22,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Generate jOOQ code
-        run: ./gradlew :db:jooqCodegen
+        run: ./gradlew :book-service-db:jooqCodegen
 
       - name: Run detekt
         run: ./gradlew detekt
