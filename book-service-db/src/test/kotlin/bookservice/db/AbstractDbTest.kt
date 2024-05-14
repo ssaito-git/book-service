@@ -1,4 +1,4 @@
-package bookservice.db.repository
+package bookservice.db
 
 import com.github.database.rider.core.api.connection.ConnectionHolder
 import org.flywaydb.core.Flyway

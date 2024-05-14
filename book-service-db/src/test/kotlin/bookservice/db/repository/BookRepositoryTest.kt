@@ -1,6 +1,7 @@
 package bookservice.db.repository
 
 import bookservice.core.entity.Book
+import bookservice.db.AbstractDbTest
 import com.github.database.rider.core.api.configuration.DBUnit
 import com.github.database.rider.core.api.dataset.DataSet
 import com.github.database.rider.core.api.dataset.ExpectedDataSet
@@ -28,6 +29,7 @@ class BookRepositoryTest : AbstractDbTest() {
                             UUID.fromString("00000000-0000-0000-0000-000000000002"),
                             UUID.fromString("00000000-0000-0000-0000-000000000001"),
                             "タイトル 2",
+                            "たいとる 2",
                             "出版社 2",
                         ),
                         it,
@@ -68,6 +70,7 @@ class BookRepositoryTest : AbstractDbTest() {
             UUID.fromString("00000000-0000-0000-0000-000000000003"),
             UUID.fromString("00000000-0000-0000-0000-000000000001"),
             "タイトル 3",
+            "たいとる 3",
             "出版社 3",
         )
 
@@ -84,10 +87,11 @@ class BookRepositoryTest : AbstractDbTest() {
             UUID.fromString("00000000-0000-0000-0000-000000000001"),
             UUID.fromString("00000000-0000-0000-0000-000000000002"),
             "タイトル 1 更新",
+            "たいとる 1 こうしん",
             "出版社 1 更新",
-        )
+        ).value
 
-        bookRepository.save(book.value)
+        bookRepository.save(book)
     }
 
     @Test
@@ -100,9 +104,10 @@ class BookRepositoryTest : AbstractDbTest() {
             UUID.fromString("00000000-0000-0000-0000-000000000001"),
             UUID.fromString("00000000-0000-0000-0000-000000000001"),
             "タイトル 1",
+            "たいとる 1",
             "出版社 1",
-        )
+        ).value
 
-        bookRepository.delete(book.value)
+        bookRepository.delete(book)
     }
 }

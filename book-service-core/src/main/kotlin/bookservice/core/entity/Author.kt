@@ -1,8 +1,9 @@
-﻿package bookservice.core.entity
+package bookservice.core.entity
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import java.time.LocalDate
 import java.util.UUID
 
 /**
@@ -10,8 +11,17 @@ import java.util.UUID
  *
  * @property id 著者の ID
  * @property name 著者名
+ * @property nameKana 著者名（かな）
+ * @property birthDate 生年月日。不明の場合は null。
+ * @property deathDate 没年月日。不明の場合は null。
  */
-data class Author(val id: UUID, val name: String) {
+data class Author(
+    val id: UUID,
+    val name: String,
+    val nameKana: String,
+    val birthDate: LocalDate?,
+    val deathDate: LocalDate?,
+) {
     companion object {
         /**
          * 著者名の最大サイズ
@@ -19,18 +29,36 @@ data class Author(val id: UUID, val name: String) {
         const val NAME_MAX_SIZE = 100
 
         /**
+         * 著者名（かな）の最大サイズ
+         */
+        const val NAME_KANA_MAX_SIZE = 100
+
+        /**
          * 著者を作成する
          *
          * @param id 著者の ID
          * @param name 著者名
+         * @param nameKana 著者名（かな）
+         * @param birthDate 生年月日
+         * @param deathDate 没年月日
          * @return バリデーションエラーがない場合は著者。バリデーションエラーがある場合はエラーメッセージ。
          */
-        fun create(id: UUID, name: String): Result<Author, String> {
+        fun create(
+            id: UUID,
+            name: String,
+            nameKana: String,
+            birthDate: LocalDate?,
+            deathDate: LocalDate?,
+        ): Result<Author, String> {
             if (name.length > NAME_MAX_SIZE) {
                 return Err("著者名が 100 文字より大きいです")
             }
 
-            return Ok(Author(id, name))
+            if (nameKana.length > NAME_KANA_MAX_SIZE) {
+                return Err("著者名（かな）が 100 文字より大きいです")
+            }
+
+            return Ok(Author(id, name, nameKana, birthDate, deathDate))
         }
     }
 }

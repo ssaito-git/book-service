@@ -24,6 +24,9 @@ class AuthorRepositoryImpl(private val dslContext: DSLContext) : AuthorRepositor
                 Author.create(
                     record.id,
                     record.name,
+                    record.nameKana,
+                    record.birthDate,
+                    record.deathDate,
                 ).mapError {
                     "登録されているデータが不正です。[table=${AUTHORS.name}, id=${record.id}, message=$it]"
                 }
@@ -31,12 +34,28 @@ class AuthorRepositoryImpl(private val dslContext: DSLContext) : AuthorRepositor
     }
 
     override fun save(author: Author) {
-        dslContext.insertInto(AUTHORS, AUTHORS.ID, AUTHORS.NAME)
-            .values(author.id, author.name)
+        dslContext.insertInto(
+            AUTHORS,
+            AUTHORS.ID,
+            AUTHORS.NAME,
+            AUTHORS.NAME_KANA,
+            AUTHORS.BIRTH_DATE,
+            AUTHORS.DEATH_DATE,
+        )
+            .values(
+                author.id,
+                author.name,
+                author.nameKana,
+                author.birthDate,
+                author.deathDate,
+            )
             .onConflict(AUTHORS.ID)
             .doUpdate()
             .set(AUTHORS.ID, excluded(AUTHORS.ID))
             .set(AUTHORS.NAME, excluded(AUTHORS.NAME))
+            .set(AUTHORS.NAME_KANA, excluded(AUTHORS.NAME_KANA))
+            .set(AUTHORS.BIRTH_DATE, excluded(AUTHORS.BIRTH_DATE))
+            .set(AUTHORS.DEATH_DATE, excluded(AUTHORS.DEATH_DATE))
             .execute()
     }
 

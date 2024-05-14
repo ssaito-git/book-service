@@ -1,0 +1,16 @@
+authors:
+  - id: "00000000-0000-0000-0000-000000000001"
+    name: "著者 1"
+    name_kana: "ちょしゃ 1"
+    birth_date: "1800-01-01"
+    death_date: "1900-01-01"
+  - id: "00000000-0000-0000-0000-000000000002"
+    name: "著者 2"
+    name_kana: "ちょしゃ 2"
+    birth_date: null
+    death_date: null
+  - id: "00000000-0000-0000-0000-000000000003"
+    name: "著者 3"
+    name_kana: "ちょしゃ 3"
+    birth_date: "1800-01-01"
+    death_date: "1900-01-01"

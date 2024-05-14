@@ -11,14 +11,26 @@ import java.util.UUID
  * @property id 書籍の ID
  * @property authorId 著者の ID
  * @property title タイトル
+ * @property titleKana タイトル（かな）
  * @property publisherName 出版社名
  */
-data class Book(val id: UUID, val authorId: UUID, val title: String, val publisherName: String) {
+data class Book(
+    val id: UUID,
+    val authorId: UUID,
+    val title: String,
+    val titleKana: String,
+    val publisherName: String,
+) {
     companion object {
         /**
          * タイトルの最大サイズ
          */
         const val TITLE_MAX_SIZE = 100
+
+        /**
+         * タイトル（かな）の最大サイズ
+         */
+        const val TITLE_KANA_MAX_SIZE = 100
 
         /**
          * 出版社名の最大サイズ
@@ -31,19 +43,30 @@ data class Book(val id: UUID, val authorId: UUID, val title: String, val publish
          * @param id 書籍の ID
          * @param authorId 著者の ID
          * @param title タイトル
+         * @param titleKana タイトル（かな）
          * @param publisherName 出版社名
          * @return バリデーションエラーがない場合は書籍。バリデーションエラーがある場合はエラーメッセージ。
          */
-        fun create(id: UUID, authorId: UUID, title: String, publisherName: String): Result<Book, String> {
+        fun create(
+            id: UUID,
+            authorId: UUID,
+            title: String,
+            titleKana: String,
+            publisherName: String,
+        ): Result<Book, String> {
             if (title.length > TITLE_MAX_SIZE) {
                 return Err("タイトルが 100 文字より大きいです")
+            }
+
+            if (titleKana.length > TITLE_KANA_MAX_SIZE) {
+                return Err("タイトル（かな）が 100 文字より大きいです")
             }
 
             if (publisherName.length > PUBLISHER_NAME_MAX_SIZE) {
                 return Err("出版社名が 100 文字より大きいです")
             }
 
-            return Ok(Book(id, authorId, title, publisherName))
+            return Ok(Book(id, authorId, title, titleKana, publisherName))
         }
     }
 }

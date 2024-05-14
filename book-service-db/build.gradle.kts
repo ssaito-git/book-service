@@ -170,7 +170,7 @@ tasks.named("jooqCodegen") {
  */
 tasks.register<FlywayMigrateTask>("localDevFlywayMigrate") {
     dependsOn("jooqCodegen")
-    dependsOn("build")
+    dependsOn("testClasses")
     tasks["compileKotlin"].mustRunAfter("jooqCodegen")
 
     url = "jdbc:postgresql://localhost:5432/book_service"
