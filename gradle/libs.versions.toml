@@ -6,6 +6,7 @@ rider = "1.42.0"
 [libraries]
 # Spring Boot
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
 spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }

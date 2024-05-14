@@ -4,6 +4,7 @@ import bookservice.db.extension.add
 import bookservice.db.jooq.tables.references.AUTHORS
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
+import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.util.UUID
 
@@ -12,6 +13,7 @@ import java.util.UUID
  *
  * @property dslContext DSL コンテキスト
  */
+@Component
 class SearchAuthorQuery(private val dslContext: DSLContext) {
     /**
      * 検索する。

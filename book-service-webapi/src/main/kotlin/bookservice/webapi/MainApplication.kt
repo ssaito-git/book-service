@@ -6,7 +6,7 @@ import org.springframework.boot.runApplication
 /**
  * アプリケーション
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = ["bookservice.webapi", "bookservice.db"])
 class MainApplication
 
 /**

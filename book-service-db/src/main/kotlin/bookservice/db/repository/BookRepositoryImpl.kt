@@ -8,6 +8,7 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.mapError
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.excluded
+import org.springframework.stereotype.Repository
 import java.util.UUID
 
 /**
@@ -15,6 +16,7 @@ import java.util.UUID
  *
  * @property dslContext DSL コンテキスト
  */
+@Repository
 class BookRepositoryImpl(private val dslContext: DSLContext) : BookRepository {
     override fun findById(id: UUID): Result<Book?, String> {
         return dslContext.selectFrom(BOOKS)

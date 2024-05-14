@@ -21,6 +21,9 @@ dependencies {
     developmentOnly(libs.spring.boot.devtools)
     testImplementation(libs.spring.boot.starter.test)
 
+    // PostgreSQL JDBC Driver
+    runtimeOnly(libs.postgresql)
+
     // Jackson
     implementation(libs.jackson.module.kotlin)
 

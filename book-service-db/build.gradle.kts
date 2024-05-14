@@ -3,6 +3,9 @@ import org.flywaydb.gradle.task.FlywayMigrateTask
 plugins {
     kotlin("jvm")
     `java-library`
+    alias(libs.plugins.spring)
+    alias(libs.plugins.springframework.boot)
+    alias(libs.plugins.spring.dependency.management)
     alias(libs.plugins.flyway)
     alias(libs.plugins.jooq.codegen.gradle)
     alias(libs.plugins.docker.compose)
@@ -24,11 +27,14 @@ repositories {
 dependencies {
     implementation(project(":book-service-core"))
 
+    // Spring Boot
+    implementation(libs.spring.boot.starter)
+
     // jOOQ
     implementation(libs.jooq)
 
     // PostgreSQL JDBC Driver
-    implementation(libs.postgresql)
+    testRuntimeOnly(libs.postgresql)
 
     // Flyway
     testImplementation(libs.flyway.core)
