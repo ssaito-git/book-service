@@ -1,13 +1,12 @@
 package bookservice.webapi.controller.book.dto
 
-import bookservice.core.entity.Book
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
- * 書籍のレスポンス
+ * 書籍リストアイテム
  */
-@Schema(name = "Book")
-data class BookResponse(
+@Schema(name = "BookListItem")
+data class BookListItem(
     /**
      * 書籍 のID
      */
@@ -37,22 +36,4 @@ data class BookResponse(
      */
     @Schema(required = true, description = "出版社名")
     val publisherName: String,
-) {
-    companion object {
-        /**
-         * 書籍エンティティからレスポンスを生成する。
-         *
-         * @param book 書籍
-         * @return レスポンス
-         */
-        fun from(book: Book): BookResponse {
-            return BookResponse(
-                book.id.toString(),
-                book.authorId.toString(),
-                book.title,
-                book.titleKana,
-                book.publisherName,
-            )
-        }
-    }
-}
+)

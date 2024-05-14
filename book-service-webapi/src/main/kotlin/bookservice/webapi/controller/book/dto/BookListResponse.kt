@@ -11,7 +11,7 @@ data class BookListResponse(
      * 書籍のリスト
      */
     @Schema(required = true, description = "書籍のリスト")
-    val books: List<BookResponse>,
+    val books: List<BookListItem>,
 
     /**
      * さらに書籍が存在するか

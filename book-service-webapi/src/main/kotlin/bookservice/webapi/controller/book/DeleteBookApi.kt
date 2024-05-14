@@ -46,6 +46,6 @@ interface DeleteBookApi {
     )
     @DeleteMapping("/books/{bookId}")
     fun deleteById(
-        @Parameter(description = "Book ID", required = true) @PathVariable bookId: UUID,
+        @Parameter(description = "書籍の ID", required = true) @PathVariable bookId: UUID,
     ): ResponseEntity<Unit>
 }

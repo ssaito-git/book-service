@@ -21,6 +21,46 @@ data class Book(
     val titleKana: String,
     val publisherName: String,
 ) {
+    /**
+     * 著者 ID を更新する。
+     */
+    fun setAuthorId(authorId: UUID): Result<Book, String> {
+        return Ok(this.copy(authorId = authorId))
+    }
+
+    /**
+     * タイトルを更新する。
+     */
+    fun setTitle(title: String): Result<Book, String> {
+        if (title.length > TITLE_MAX_SIZE) {
+            return Err("タイトルが 100 文字より大きいです")
+        }
+
+        return Ok(this.copy(title = title))
+    }
+
+    /**
+     * タイトル（かな）を更新する。
+     */
+    fun setTitleKana(titleKana: String): Result<Book, String> {
+        if (titleKana.length > TITLE_KANA_MAX_SIZE) {
+            return Err("タイトル（かな）が 100 文字より大きいです")
+        }
+
+        return Ok(this.copy(titleKana = titleKana))
+    }
+
+    /**
+     * 出版社名を更新する。
+     */
+    fun setPublisherName(publisherName: String): Result<Book, String> {
+        if (publisherName.length > PUBLISHER_NAME_MAX_SIZE) {
+            return Err("出版社名が 100 文字より大きいです")
+        }
+
+        return Ok(this.copy(publisherName = publisherName))
+    }
+
     companion object {
         /**
          * タイトルの最大サイズ

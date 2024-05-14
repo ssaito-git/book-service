@@ -62,9 +62,9 @@ interface GetBookListApi {
         ) @RequestParam(required = false) @UUID authorId: String?,
         @Parameter(
             description = "取得する書籍の件数",
-        ) @RequestParam(defaultValue = "30", required = false) @Range(min = 1, max = 50) limit: Int,
+        ) @RequestParam(defaultValue = "30", required = false) @Range(min = 1, max = 50) limit: Long,
         @Parameter(
             description = "オフセット",
-        ) @RequestParam(defaultValue = "0", required = false) @Min(0) offset: Int,
+        ) @RequestParam(defaultValue = "0", required = false) @Min(0) offset: Long,
     ): ResponseEntity<BookListResponse>
 }
