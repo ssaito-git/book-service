@@ -1,7 +1,9 @@
 package bookservice.db.query
 
-import bookservice.core.entity.Book
+import bookservice.db.extension.add
 import org.jooq.DSLContext
+import org.jooq.impl.DSL
+import samplespringboot.db.jooq.tables.references.BOOKS
 import java.util.UUID
 
 /**
@@ -16,8 +18,41 @@ class SearchBookQuery(private val dslContext: DSLContext) {
      * @param parameter 検索パラメーター
      * @return 検索結果
      */
-    fun execute(parameter: Parameter): Result {
-        TODO()
+    fun execute(parameter: Parameter): QueryResult {
+        val condition = DSL.noCondition().add { c ->
+            parameter.title?.let {
+                c.and(BOOKS.TITLE.contains(it))
+            }
+        }.add { c ->
+            parameter.publisherName?.let {
+                c.and(BOOKS.PUBLISHER_NAME.contains(it))
+            }
+        }.add { c ->
+            parameter.authorId?.let {
+                c.and(BOOKS.AUTHOR_ID.eq(it))
+            }
+        }
+
+        val count = dslContext.fetchCount(BOOKS, condition)
+
+        val rows = dslContext.selectFrom(BOOKS)
+            .where(condition)
+            .offset(parameter.offset)
+            .limit(parameter.limit)
+            .fetchArray()
+            .map {
+                ResultRow(
+                    it.id,
+                    it.authorId,
+                    it.title,
+                    it.titleKana,
+                    it.publisherName,
+                )
+            }
+
+        val hasMore = parameter.offset + parameter.limit < count
+
+        return QueryResult(rows, hasMore)
     }
 
     /**
@@ -43,8 +78,25 @@ class SearchBookQuery(private val dslContext: DSLContext) {
      * @property books 書籍のリスト
      * @property hasMore さらに書籍が存在するか
      */
-    data class Result(
-        val books: List<Book>,
+    data class QueryResult(
+        val books: List<ResultRow>,
         val hasMore: Boolean,
+    )
+
+    /**
+     * レコード
+     *
+     * @property id 書籍 ID
+     * @property authorId 著者 ID
+     * @property title タイトル
+     * @property titleKana タイトル（かな）
+     * @property publisherName 発行者名
+     */
+    data class ResultRow(
+        val id: UUID,
+        val authorId: UUID,
+        val title: String,
+        val titleKana: String,
+        val publisherName: String,
     )
 }
