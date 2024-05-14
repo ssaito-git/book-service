@@ -10,6 +10,9 @@ import org.springframework.web.ErrorResponseException
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
+/**
+ * 書籍の取得 API 実装
+ */
 @RestController
 class GetBookController(private val dslContext: DSLContext) : GetBookApi {
     override fun getById(bookId: UUID): ResponseEntity<BookResponse> {

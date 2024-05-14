@@ -11,8 +11,17 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import java.util.UUID
 
+/**
+ * 書籍の削除 API
+ */
 @Tag(name = "Book", description = "")
 interface DeleteBookApi {
+    /**
+     * 指定された ID の書籍を削除する。
+     *
+     * @param bookId 書籍 ID
+     * @return レスポンス
+     */
     @Operation(
         summary = "ID に一致する書籍を削除する",
         description = "",

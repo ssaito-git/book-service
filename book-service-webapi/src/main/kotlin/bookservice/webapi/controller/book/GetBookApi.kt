@@ -14,8 +14,17 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import java.util.UUID
 
+/**
+ * 書籍の取得 API
+ */
 @Tag(name = "Book", description = "")
 interface GetBookApi {
+    /**
+     * 指定した ID の書籍を取得する。
+     *
+     * @param bookId 書籍 ID
+     * @return レスポンス
+     */
     @Operation(
         summary = "ID に一致する書籍を取得する",
         description = "",
@@ -41,6 +50,6 @@ interface GetBookApi {
     )
     @GetMapping("/books/{bookId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getById(
-        @Parameter(description = "Book ID", required = true) @PathVariable bookId: UUID,
+        @Parameter(description = "書籍の ID", required = true) @PathVariable bookId: UUID,
     ): ResponseEntity<BookResponse>
 }

@@ -16,8 +16,21 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 
+/**
+ * 書籍のリスト取得 API
+ */
 @Tag(name = "Book", description = "")
 interface GetBookListApi {
+    /**
+     * 指定した条件で書籍のリストを取得する。
+     *
+     * @param title タイトル
+     * @param publisherName 出版社名
+     * @param authorId 著者 ID
+     * @param limit 取得件数
+     * @param offset オフセット
+     * @return レスポンス
+     */
     @Operation(
         summary = "書籍のリストを取得する",
         description = "",
@@ -46,7 +59,7 @@ interface GetBookListApi {
         ) @RequestParam(required = false) publisherName: String?,
         @Parameter(
             description = "著者 ID",
-        ) @RequestParam(required = false) @UUID publisherId: String?,
+        ) @RequestParam(required = false) @UUID authorId: String?,
         @Parameter(
             description = "取得する書籍の件数",
         ) @RequestParam(defaultValue = "30", required = false) @Range(min = 1, max = 50) limit: Int,

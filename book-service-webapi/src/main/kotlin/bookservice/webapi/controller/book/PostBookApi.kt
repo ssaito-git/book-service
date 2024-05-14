@@ -1,7 +1,7 @@
 package bookservice.webapi.controller.book
 
-import bookservice.webapi.controller.book.dto.BookRequest
 import bookservice.webapi.controller.book.dto.BookResponse
+import bookservice.webapi.controller.book.dto.PostBookRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -14,8 +14,17 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 
+/**
+ * 書籍の登録 API
+ */
 @Tag(name = "Book", description = "")
 interface PostBookApi {
+    /**
+     * 書籍を登録する。
+     *
+     * @param body リクエストボディ
+     * @return レスポンス
+     */
     @Operation(
         summary = "新しい書籍を登録する",
         description = "",
@@ -40,6 +49,6 @@ interface PostBookApi {
         produces = [MediaType.APPLICATION_JSON_VALUE],
     )
     fun post(
-        @RequestBody @Validated body: BookRequest,
+        @RequestBody @Validated body: PostBookRequest,
     ): ResponseEntity<BookResponse>
 }
