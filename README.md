@@ -5,6 +5,8 @@
 ## 環境
 
 - Java 21
+- Kotlin 1.9.23
+- Spring Boot 3.2.1
 
 ## プロジェクト構成
 
@@ -14,7 +16,7 @@ Gradle のマルチプロジェクト構成です。
   - book-service-core
     - エンティティを定義します。
   - book-service-db
-    - Flyway によるマイグレーションの管理とリポジトリの実装。jOOQ のソースコード生成も行う。
+    - Flyway によるマイグレーションの管理とリポジトリの実装。jOOQ のソースコード生成を行う。
   - book-service-webapi
     - Web API の実装。
 
