@@ -1,13 +1,13 @@
 package testdata
 
+import bookservice.db.jooq.tables.references.AUTHORS
+import bookservice.db.jooq.tables.references.BOOKS
 import org.apache.commons.csv.CSVFormat
 import org.flywaydb.core.api.migration.BaseJavaMigration
 import org.flywaydb.core.api.migration.Context
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
-import samplespringboot.db.jooq.tables.references.AUTHORS
-import samplespringboot.db.jooq.tables.references.BOOKS
 import java.io.FileNotFoundException
 import java.io.FileReader
 import java.io.Reader

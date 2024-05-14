@@ -105,7 +105,7 @@ jooq {
             name = "org.jooq.codegen.KotlinGenerator"
             target {
                 val outputDirectory = layout.buildDirectory.dir("generated-jooq")
-                packageName = "samplespringboot.db.jooq"
+                packageName = "bookservice.db.jooq"
                 directory = outputDirectory.get().asFile.path
             }
             database {

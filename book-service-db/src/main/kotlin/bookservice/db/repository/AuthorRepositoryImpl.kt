@@ -2,12 +2,12 @@ package bookservice.db.repository
 
 import bookservice.core.entity.Author
 import bookservice.core.repository.AuthorRepository
+import bookservice.db.jooq.tables.references.AUTHORS
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.mapError
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.excluded
-import samplespringboot.db.jooq.tables.references.AUTHORS
 import java.util.UUID
 
 /**
