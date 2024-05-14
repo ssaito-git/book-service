@@ -20,6 +20,29 @@ Gradle のマルチプロジェクト構成です。
   - book-service-webapi
     - Web API の実装。
 
+## データモデル
+
+```mermaid
+erDiagram
+  BOOKS {
+    uuid id PK "書籍の ID"
+    uuid author_id FK "著者の ID"
+    string title "タイトル"
+    string title_kana "タイトルかな"
+    string publisher_name "出版社名"
+  }
+
+  AUTHORS {
+    uuid id PK "著者の ID"
+    string name "名前"
+    string name_kana "名前かな"
+    date birth_date "生年月日"
+    date death_date "没年月日"
+  }
+
+  BOOKS }o--|| AUTHORS : ""
+```
+
 ## ローカル開発環境
 
 [青空文庫](https://www.aozora.gr.jp/index_pages/person_all.html)で公開されている「公開中　作家別作品一覧拡充版：全て(CSV形式、UTF-8、zip圧縮）」をダウンロードして ZIP ファイル内の `list_person_all_extended_utf8.csv` を `book-service-db/src/test/resource/testdata` に配置することで、ローカル開発環境にテストデータが登録されます。
