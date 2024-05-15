@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size
 import org.hibernate.validator.constraints.UUID
 
 /**
- * 書籍の作成リクエスト
+ * 書籍の更新リクエスト
  */
 data class PatchBookRequest(
     /**
