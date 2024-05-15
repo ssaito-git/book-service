@@ -28,14 +28,14 @@ erDiagram
     uuid id PK "書籍の ID"
     uuid author_id FK "著者の ID"
     string title "タイトル"
-    string title_kana "タイトルかな"
+    string title_kana "タイトル（かな）"
     string publisher_name "出版社名"
   }
 
   AUTHORS {
     uuid id PK "著者の ID"
     string name "名前"
-    string name_kana "名前かな"
+    string name_kana "名前（かな）"
     date birth_date "生年月日"
     date death_date "没年月日"
   }
