@@ -99,3 +99,7 @@ erDiagram
 - [X] detekt の導入
 
 - [X] detekt と JUnit を実行する GitHub Actions を作成
+
+- [ ] UUID v7 への変更
+
+- [ ] Web API のコントローラーに記載しているビジネスロジックをサービスに切り出す
