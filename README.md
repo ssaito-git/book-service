@@ -1,6 +1,6 @@
 # book-service
 
-書籍と著者の情報を管理・検索する Web API のシステムです。
+書籍と著者の情報を管理・検索できる Web API のシステムです。
 
 ## 環境
 
@@ -80,3 +80,20 @@ erDiagram
 ```shell
 ./gradlew :book-service-webapi:bootRun --args='--spring.profiles.active=local'
 ```
+
+## タスク
+
+- [ ] ユニットテストの作成
+  - [ ] book-service-core
+  - [ ] book-service-db
+  - [ ] book-service-webapi
+
+- [ ] インテグレーションテストの作成
+  - [X] book-service-db
+  - [ ] book-service-webapi
+
+- [X] jOOQ コード生成の Gradle タスクを作成
+
+- [X] Docker Compose を利用したローカル開発環境構築の Gradle タスクを作成
+
+- [X] detekt の導入
