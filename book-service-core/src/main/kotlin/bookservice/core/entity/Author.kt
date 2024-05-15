@@ -22,6 +22,42 @@ data class Author(
     val birthDate: LocalDate?,
     val deathDate: LocalDate?,
 ) {
+    /**
+     * 著者名を更新する。
+     */
+    fun setName(name: String): Result<Author, String> {
+        if (name.length > NAME_MAX_SIZE) {
+            return Err("著者名が $NAME_MAX_SIZE 文字より大きいです")
+        }
+
+        return Ok(this.copy(name = name))
+    }
+
+    /**
+     * 著者名（かな）を更新する。
+     */
+    fun setNameKana(nameKana: String): Result<Author, String> {
+        if (nameKana.length > NAME_KANA_MAX_SIZE) {
+            return Err("著者名（かな）が $NAME_KANA_MAX_SIZE 文字より大きいです")
+        }
+
+        return Ok(this.copy(nameKana = nameKana))
+    }
+
+    /**
+     * 生年月日を更新する。
+     */
+    fun setBirthDate(birthDate: LocalDate?): Result<Author, String> {
+        return Ok(this.copy(birthDate = birthDate))
+    }
+
+    /**
+     * 没年月日を更新する。
+     */
+    fun setDeathDate(deathDate: LocalDate?): Result<Author, String> {
+        return Ok(this.copy(deathDate = deathDate))
+    }
+
     companion object {
         /**
          * 著者名の最大サイズ
@@ -51,11 +87,11 @@ data class Author(
             deathDate: LocalDate?,
         ): Result<Author, String> {
             if (name.length > NAME_MAX_SIZE) {
-                return Err("著者名が 100 文字より大きいです")
+                return Err("著者名が $NAME_MAX_SIZE 文字より大きいです")
             }
 
             if (nameKana.length > NAME_KANA_MAX_SIZE) {
-                return Err("著者名（かな）が 100 文字より大きいです")
+                return Err("著者名（かな）が $NAME_KANA_MAX_SIZE 文字より大きいです")
             }
 
             return Ok(Author(id, name, nameKana, birthDate, deathDate))
