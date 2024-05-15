@@ -97,3 +97,5 @@ erDiagram
 - [X] Docker Compose を利用したローカル開発環境構築の Gradle タスクを作成
 
 - [X] detekt の導入
+
+- [X] detekt と JUnit を実行する GitHub Actions を作成
