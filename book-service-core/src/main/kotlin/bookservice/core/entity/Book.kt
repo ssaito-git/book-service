@@ -33,7 +33,7 @@ data class Book(
      */
     fun setTitle(title: String): Result<Book, String> {
         if (title.length > TITLE_MAX_SIZE) {
-            return Err("タイトルが 100 文字より大きいです")
+            return Err("タイトルが $TITLE_MAX_SIZE 文字より大きいです")
         }
 
         return Ok(this.copy(title = title))
@@ -44,7 +44,7 @@ data class Book(
      */
     fun setTitleKana(titleKana: String): Result<Book, String> {
         if (titleKana.length > TITLE_KANA_MAX_SIZE) {
-            return Err("タイトル（かな）が 100 文字より大きいです")
+            return Err("タイトル（かな）が $TITLE_KANA_MAX_SIZE 文字より大きいです")
         }
 
         return Ok(this.copy(titleKana = titleKana))
@@ -55,7 +55,7 @@ data class Book(
      */
     fun setPublisherName(publisherName: String): Result<Book, String> {
         if (publisherName.length > PUBLISHER_NAME_MAX_SIZE) {
-            return Err("出版社名が 100 文字より大きいです")
+            return Err("出版社名が $PUBLISHER_NAME_MAX_SIZE 文字より大きいです")
         }
 
         return Ok(this.copy(publisherName = publisherName))
@@ -95,15 +95,15 @@ data class Book(
             publisherName: String,
         ): Result<Book, String> {
             if (title.length > TITLE_MAX_SIZE) {
-                return Err("タイトルが 100 文字より大きいです")
+                return Err("タイトルが $TITLE_MAX_SIZE 文字より大きいです")
             }
 
             if (titleKana.length > TITLE_KANA_MAX_SIZE) {
-                return Err("タイトル（かな）が 100 文字より大きいです")
+                return Err("タイトル（かな）が $TITLE_KANA_MAX_SIZE 文字より大きいです")
             }
 
             if (publisherName.length > PUBLISHER_NAME_MAX_SIZE) {
-                return Err("出版社名が 100 文字より大きいです")
+                return Err("出版社名が $PUBLISHER_NAME_MAX_SIZE 文字より大きいです")
             }
 
             return Ok(Book(id, authorId, title, titleKana, publisherName))
