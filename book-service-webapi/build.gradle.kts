@@ -32,8 +32,31 @@ dependencies {
 
     // Springdoc-openapi
     implementation(libs.springdoc.openapi.starter.webmvc.api)
+
+    // Flyway
+    testImplementation(libs.flyway.core)
+    testRuntimeOnly(libs.flyway.database.postgresql)
+
+    // JUnit
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.platform.launcher)
+
+    // Testcontainers
+    testImplementation(platform(libs.testcontainers.bom))
+    testImplementation(libs.testcontainers)
+    testImplementation(libs.testcontainers.junit.jupiter)
+    testImplementation(libs.testcontainers.postgresql)
+
+    // Database Rider
+    testImplementation(libs.rider.core)
+    testImplementation(libs.rider.junit5)
 }
 
 kotlin {
     jvmToolchain(21)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
