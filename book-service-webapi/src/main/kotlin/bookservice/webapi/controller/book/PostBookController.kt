@@ -1,10 +1,8 @@
 package bookservice.webapi.controller.book
 
-import bookservice.core.entity.Book
-import bookservice.core.repository.AuthorRepository
-import bookservice.core.repository.BookRepository
 import bookservice.webapi.controller.book.dto.BookResponse
 import bookservice.webapi.controller.book.dto.PostBookRequest
+import bookservice.webapi.service.book.CreateBookService
 import com.github.michaelbull.result.getOrThrow
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -17,32 +15,30 @@ import java.util.UUID
  * 書籍の登録 API 実装
  */
 @RestController
-class PostBookController(
-    private val authorRepository: AuthorRepository,
-    private val bookRepository: BookRepository,
-) : PostBookApi {
+class PostBookController(private val createBookService: CreateBookService) : PostBookApi {
     override fun post(body: PostBookRequest): ResponseEntity<BookResponse> {
-        val author = authorRepository.findById(UUID.fromString(body.authorId))
-            .getOrThrow {
-                logger.error(it)
-                ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
-            }
+        val authorId = UUID.fromString(body.authorId)
 
-        if (author == null) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "著者が存在しません")
-        }
-
-        val book = Book.create(
-            UUID.randomUUID(),
-            author.id,
+        val parameter = CreateBookService.Parameter(
+            authorId,
             body.title,
             body.titleKana,
             body.publisherName,
-        ).getOrThrow {
-            ResponseStatusException(HttpStatus.BAD_REQUEST, it)
-        }
+        )
 
-        bookRepository.save(book)
+        val book = createBookService.createBook(parameter)
+            .getOrThrow {
+                when (it) {
+                    is CreateBookService.InternalError -> {
+                        logger.error(it.message)
+                        ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
+                    }
+
+                    is CreateBookService.ValidationError -> {
+                        ResponseStatusException(HttpStatus.BAD_REQUEST, it.message)
+                    }
+                }
+            }
 
         return ResponseEntity.ok(BookResponse.from(book))
     }
