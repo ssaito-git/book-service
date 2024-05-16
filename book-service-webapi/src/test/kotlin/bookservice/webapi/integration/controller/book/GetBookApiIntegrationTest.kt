@@ -1,4 +1,4 @@
-package bookservice.webapi.controller.book
+package bookservice.webapi.integration.controller.book
 
 import bookservice.webapi.AbstractDbTest
 import com.github.database.rider.core.api.configuration.DBUnit
