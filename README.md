@@ -103,3 +103,7 @@ erDiagram
 - [ ] UUID v7 への変更
 
 - [ ] Web API のコントローラーに記載しているビジネスロジックをサービスに切り出す
+
+- [ ] Dependabot または Renovate の導入
+
+- [ ] OpenSearch の導入
