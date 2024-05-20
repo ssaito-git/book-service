@@ -26,6 +26,7 @@ dependencies {
 
     // Jackson
     implementation(libs.jackson.module.kotlin)
+    implementation(libs.jackson.databind.nullable)
 
     // jOOQ
     implementation(libs.jooq)

@@ -18,6 +18,9 @@ springdoc-openapi-starter-webmvc-api = { module = "org.springdoc:springdoc-opena
 # Jackson
 jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
 
+# jackson-databind-nullable
+jackson-databind-nullable = { module = "org.openapitools:jackson-databind-nullable", version = "0.2.6" }
+
 # jOOQ
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 
