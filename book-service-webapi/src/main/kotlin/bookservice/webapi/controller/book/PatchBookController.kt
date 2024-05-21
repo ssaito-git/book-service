@@ -2,7 +2,8 @@ package bookservice.webapi.controller.book
 
 import bookservice.webapi.controller.book.dto.BookResponse
 import bookservice.webapi.controller.book.dto.PatchBookRequest
-import bookservice.webapi.service.book.UpdateBookService
+import bookservice.webapi.extension.toUndefinable
+import bookservice.webapi.service.book.PartialUpdateBookService
 import com.github.michaelbull.result.getOrThrow
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -16,30 +17,34 @@ import java.util.UUID
  */
 @RestController
 class PatchBookController(
-    private val updateBookService: UpdateBookService,
+    private val updateBookService: PartialUpdateBookService,
 ) : PatchBookApi {
     override fun patch(body: PatchBookRequest, bookId: UUID): ResponseEntity<BookResponse> {
-        val authorId = runCatching { UUID.fromString(body.authorId) }.getOrNull()
+        val authorId = body.authorId.toUndefinable().map {
+            runCatching { UUID.fromString(it) }.getOrElse {
+                throw ResponseStatusException(HttpStatus.BAD_REQUEST, it.message)
+            }
+        }
 
-        val parameter = UpdateBookService.Parameter(
+        val parameter = PartialUpdateBookService.Parameter(
             bookId,
             authorId,
-            body.title,
-            body.titleKana,
-            body.publisherName,
+            body.title.toUndefinable(),
+            body.titleKana.toUndefinable(),
+            body.publisherName.toUndefinable(),
         )
 
         val updatedBook = updateBookService.updateBook(parameter)
             .getOrThrow {
                 when (it) {
-                    is UpdateBookService.InternalError -> {
+                    is PartialUpdateBookService.InternalError -> {
                         logger.error(it.message)
                         ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
                     }
-                    UpdateBookService.NotFound -> {
+                    PartialUpdateBookService.NotFound -> {
                         ResponseStatusException(HttpStatus.NOT_FOUND, "書籍が存在しません")
                     }
-                    is UpdateBookService.ValidationError -> {
+                    is PartialUpdateBookService.ValidationError -> {
                         ResponseStatusException(HttpStatus.BAD_REQUEST, it.message)
                     }
                 }
