@@ -1,6 +1,6 @@
 package bookservice.webapi.controller.author
 
-import bookservice.core.repository.AuthorRepository
+import bookservice.webapi.service.author.DeleteAuthorService
 import com.github.michaelbull.result.getOrThrow
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -14,20 +14,22 @@ import java.util.UUID
  * 書籍の削除 API 実装
  */
 @RestController
-class DeleteAuthorController(private val authorRepository: AuthorRepository) : DeleteAuthorApi {
+class DeleteAuthorController(private val deleteAuthorService: DeleteAuthorService) : DeleteAuthorApi {
     override fun deleteById(authorId: UUID): ResponseEntity<Unit> {
-        val author = authorRepository.findById(authorId)
+        deleteAuthorService.deleteAuthor(authorId)
             .getOrThrow {
-                logger.error(it)
-                ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
+                when (it) {
+                    is DeleteAuthorService.InternalError -> {
+                        logger.error(it.message)
+                        ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
+                    }
+                    DeleteAuthorService.NotFound -> {
+                        ErrorResponseException(HttpStatus.NOT_FOUND)
+                    }
+                }
             }
 
-        return if (author != null) {
-            authorRepository.delete(author)
-            ResponseEntity.noContent().build()
-        } else {
-            throw ErrorResponseException(HttpStatus.NOT_FOUND)
-        }
+        return ResponseEntity.noContent().build()
     }
 
     companion object {

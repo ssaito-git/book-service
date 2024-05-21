@@ -1,10 +1,9 @@
 package bookservice.webapi.controller.author
 
-import bookservice.core.repository.AuthorRepository
 import bookservice.webapi.controller.author.dto.AuthorResponse
 import bookservice.webapi.controller.author.dto.PatchAuthorRequest
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.andThen
+import bookservice.webapi.extension.toUndefinable
+import bookservice.webapi.service.author.PartialUpdateAuthorService
 import com.github.michaelbull.result.getOrThrow
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -18,44 +17,34 @@ import java.util.UUID
  */
 @RestController
 class PatchAuthorController(
-    private val authorRepository: AuthorRepository,
+    private val partialUpdateAuthorService: PartialUpdateAuthorService,
 ) : PatchAuthorApi {
     override fun patch(body: PatchAuthorRequest, authorId: UUID): ResponseEntity<AuthorResponse> {
-        val author = authorRepository.findById(authorId)
+        val parameter = PartialUpdateAuthorService.Parameter(
+            authorId,
+            body.name.toUndefinable(),
+            body.nameKana.toUndefinable(),
+            body.birthDate.toUndefinable(),
+            body.deathDate.toUndefinable(),
+        )
+
+        val author = partialUpdateAuthorService.partialUpdateAuthor(parameter)
             .getOrThrow {
-                logger.error(it)
-                ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
-            }
-
-        if (author == null) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "著者が存在しません")
-        }
-
-        val newAuthor = author.setName(body.name ?: author.name)
-            .andThen {
-                it.setNameKana(body.nameKana ?: author.nameKana)
-            }
-            .andThen {
-                if (body.birthDate != null) {
-                    it.setBirthDate(body.birthDate)
-                } else {
-                    Ok(it)
+                when (it) {
+                    is PartialUpdateAuthorService.InternalError -> {
+                        logger.error(it.message)
+                        ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
+                    }
+                    PartialUpdateAuthorService.NotFound -> {
+                        ResponseStatusException(HttpStatus.NOT_FOUND, "著者が存在しません")
+                    }
+                    is PartialUpdateAuthorService.ValidationError -> {
+                        ResponseStatusException(HttpStatus.BAD_REQUEST, it.message)
+                    }
                 }
             }
-            .andThen {
-                if (body.deathDate != null) {
-                    it.setDeathDate(body.deathDate)
-                } else {
-                    Ok(it)
-                }
-            }
-            .getOrThrow {
-                throw ResponseStatusException(HttpStatus.BAD_REQUEST, it)
-            }
 
-        authorRepository.save(newAuthor)
-
-        return ResponseEntity.ok(AuthorResponse.from(newAuthor))
+        return ResponseEntity.ok(AuthorResponse.from(author))
     }
 
     companion object {
