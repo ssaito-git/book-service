@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 /**
- * 書籍更新サービス
+ * 書籍部分更新サービス
  */
 @Service
 class PartialUpdateBookService(
@@ -22,7 +22,7 @@ class PartialUpdateBookService(
     private val bookRepository: BookRepository,
 ) {
     /**
-     * 書籍を更新する。
+     * 書籍を部分更新する。
      *
      * @param parameter パラメーター
      * @return 更新に成功した場合は更新した後の書籍。失敗した場合は [Error]。

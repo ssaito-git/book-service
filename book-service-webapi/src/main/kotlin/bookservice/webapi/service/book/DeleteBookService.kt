@@ -18,7 +18,7 @@ class DeleteBookService(private val bookRepository: BookRepository) {
      * 書籍を削除する。
      *
      * @param bookId 書籍 ID
-     * @return
+     * @return 削除に失敗した場合は [Error]。
      */
     fun deleteBook(bookId: UUID): Result<Unit, Error> = binding {
         val book = bookRepository.findById(bookId)
