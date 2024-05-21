@@ -1,7 +1,7 @@
 package bookservice.webapi.controller.author
 
-import bookservice.core.repository.AuthorRepository
 import bookservice.webapi.controller.author.dto.AuthorResponse
+import bookservice.webapi.service.author.GetAuthorService
 import com.github.michaelbull.result.getOrThrow
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -15,19 +15,23 @@ import java.util.UUID
  * 著者の取得 API 実装
  */
 @RestController
-class GetAuthorController(private val authorRepository: AuthorRepository) : GetAuthorApi {
+class GetAuthorController(private val getAuthorService: GetAuthorService) : GetAuthorApi {
     override fun getById(authorId: UUID): ResponseEntity<AuthorResponse> {
-        val author = authorRepository.findById(authorId)
+        val author = getAuthorService.getAuthor(authorId)
             .getOrThrow {
-                logger.error(it)
-                ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
+                when (it) {
+                    is GetAuthorService.InternalError -> {
+                        logger.error(it.message)
+                        ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
+                    }
+
+                    GetAuthorService.NotFound -> {
+                        ErrorResponseException(HttpStatus.NOT_FOUND)
+                    }
+                }
             }
 
-        return if (author != null) {
-            ResponseEntity.ok(AuthorResponse.from(author))
-        } else {
-            throw ErrorResponseException(HttpStatus.NOT_FOUND)
-        }
+        return ResponseEntity.ok(AuthorResponse.from(author))
     }
 
     companion object {
